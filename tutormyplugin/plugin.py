@@ -14,7 +14,7 @@ config = {
 ##########################################################
 
 hooks.Filters.OPENEDX_EXTRA_PIP_REQUIREMENTS.add_item(
-    "git+https://github.com/akhilmohankdr/tutormyplugin.git@main#egg=tutormyplugin"
+    "git+https://github.com/akhilmohankdr/tutormyplugin.git@main"
 )
 
 ##########################################################
