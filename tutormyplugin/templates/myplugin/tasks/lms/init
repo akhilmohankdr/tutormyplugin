@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+URL_FILE="/openedx/edx-platform/lms/urls.py"
+
+if ! grep -q "tutormyplugin.my_api.urls" "$URL_FILE"; then
+  echo "Registering myplugin LMS URLs..."
+  cat >> "$URL_FILE" << 'EOF'
+
+# Myplugin API URLs
+from django.urls import path, include
+urlpatterns.append(
+    path("api/myplugin/", include("tutormyplugin.my_api.urls"))
+)
+EOF
+else
+  echo "Myplugin URLs already registered"
+fi
