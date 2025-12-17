@@ -1,6 +1,5 @@
 from tutor import hooks
 
-# Plugin metadata
 __version__ = "20.0.0"
 
 config = {
@@ -10,20 +9,6 @@ config = {
 }
 
 ##########################################################
-# Install plugin from GitHub during image build
-##########################################################
-
-# Use the correct filter for pip requirements
-hooks.Filters.ENV_PATCHES.add_item(
-    (
-        "openedx-dockerfile-post-python-requirements",
-        """
-RUN pip install git+https://github.com/akhilmohankdr/tutormyplugin.git@main
-"""
-    )
-)
-
-##########################################################
 # DJANGO: Add to INSTALLED_APPS
 ##########################################################
 
@@ -31,26 +16,21 @@ hooks.Filters.ENV_PATCHES.add_item(
     (
         "openedx-lms-common-settings",
         """
-# Custom myplugin app
-INSTALLED_APPS.append('tutormyplugin.my_api')
+# Register myplugin Django app
+if 'tutormyplugin.my_api' not in INSTALLED_APPS:
+    INSTALLED_APPS.append('tutormyplugin.my_api')
 
-# Allow apps subdomain
-ALLOWED_HOSTS.append('apps.local.openedx.io')
-"""
+# Register myplugin URLs
+from django.urls import include, path
+
+def _add_myplugin_urls(urlpatterns):
+    urlpatterns.append(
+        path("api/myplugin/", include("tutormyplugin.my_api.urls"))
     )
-)
+    return urlpatterns
 
-##########################################################
-# URLS: Register API endpoints
-##########################################################
-
-hooks.Filters.ENV_PATCHES.add_item(
-    (
-        "openedx-lms-urls",
-        """
-# myplugin API routes
-from django.urls import path, include
-urlpatterns.append(path('api/myplugin/', include('tutormyplugin.my_api.urls')))
+ROOT_URLCONF_PATCHES = globals().get("ROOT_URLCONF_PATCHES", [])
+ROOT_URLCONF_PATCHES.append(_add_myplugin_urls)
 """
     )
 )
