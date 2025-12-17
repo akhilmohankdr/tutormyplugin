@@ -1,6 +1,5 @@
 from tutor import hooks
 
-# Plugin metadata
 __version__ = "20.0.0"
 
 ##########################################################
@@ -9,9 +8,13 @@ __version__ = "20.0.0"
 hooks.Filters.ENV_PATCHES.add_item(
     (
         "openedx-dockerfile-post-python-requirements",
-        "RUN pip install git+https://github.com/akhilmohankdr/tutormyplugin.git@main"
+        "RUN pip install --no-cache-dir git+https://github.com/akhilmohankdr/tutormyplugin.git@main"
     )
 )
+
+##########################################################
+# Add to INSTALLED_APPS
+##########################################################
 hooks.Filters.ENV_PATCHES.add_item(
     (
         "openedx-lms-common-settings",
@@ -23,7 +26,7 @@ ALLOWED_HOSTS.append('apps.local.openedx.io')
 )
 
 ##########################################################
-# Register URLs properly
+# Register URLs
 ##########################################################
 def urls():
     from django.urls import path, include
@@ -31,6 +34,7 @@ def urls():
         path("api/myplugin/", include("tutormyplugin.my_api.urls")),
     ]
 
+# Pass string path to function, not the function object
 hooks.Filters.ENV_PATCHES.add_item(
     ("openedx-lms-urls", "tutormyplugin.plugin.urls")
 )
