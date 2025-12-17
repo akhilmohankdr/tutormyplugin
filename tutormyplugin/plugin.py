@@ -21,13 +21,3 @@ INSTALLED_APPS.append("tutormyplugin.my_api")
 """
     )
 )
-
-# Register init task
-hooks.Filters.CLI_DO_INIT_TASKS.add_item(
-    ("lms", ("myplugin", "init"))
-)
-
-# Tell Tutor where templates live
-hooks.Filters.ENV_TEMPLATE_ROOTS.add_item(
-    os.path.join(HERE, "templates")
-)
