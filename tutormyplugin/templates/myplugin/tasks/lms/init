@@ -1,0 +1,14 @@
+#!/bin/bash
+# Register myplugin URLs if not already present
+if ! grep -q "tutormyplugin.my_api.urls" /openedx/edx-platform/lms/urls.py; then
+    echo "Registering myplugin URLs..."
+    cat >> /openedx/edx-platform/lms/urls.py << 'MYPLUGIN_URLS'
+
+# Myplugin custom API URLs
+from django.urls import path, include
+urlpatterns.append(path('api/myplugin/', include('tutormyplugin.my_api.urls')))
+MYPLUGIN_URLS
+    echo "✅ Myplugin URLs registered successfully!"
+else
+    echo "✅ Myplugin URLs already registered"
+fi

@@ -11,9 +11,7 @@ config = {
     }
 }
 
-##########################################################
 # Install plugin via pip during image build
-##########################################################
 hooks.Filters.ENV_PATCHES.add_item(
     (
         "openedx-dockerfile-post-python-requirements",
@@ -21,9 +19,7 @@ hooks.Filters.ENV_PATCHES.add_item(
     )
 )
 
-##########################################################
 # Add to INSTALLED_APPS
-##########################################################
 hooks.Filters.ENV_PATCHES.add_item(
     (
         "openedx-lms-common-settings",
@@ -35,13 +31,10 @@ ALLOWED_HOSTS.append('apps.local.openedx.io')
     )
 )
 
-##########################################################
-# Register URLs - Use the init task approach
-##########################################################
+# Register init task
 hooks.Filters.CLI_DO_INIT_TASKS.add_item(
-    ("lms", ("myplugin", "urls"))
+    ("lms", ("myplugin", "init"))
 )
-
 # Add URL configuration via template
 hooks.Filters.ENV_TEMPLATE_ROOTS.add_item(
     os.path.join(HERE, "templates")
