@@ -63,7 +63,7 @@ def user_stats(request):
     superusers = User.objects.filter(is_superuser=True).count()
     
     return Response({
-        "message": "This endpoint was deployed via HOOKS only!",
+        "message": "This endpoint was deployed",
         "stats": {
             "total_users": total_users,
             "active_users": active_users,
