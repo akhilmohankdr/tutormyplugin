@@ -9,6 +9,7 @@ from rest_framework import routers
 
 from tutormyplugin.zdlab.api.v1 import views
 
+app_name = 'v1'
 
 router = routers.DefaultRouter()
 

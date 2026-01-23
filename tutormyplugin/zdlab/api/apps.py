@@ -21,15 +21,21 @@ class ZdlabAPIConfig(AppConfig):
             if not hasattr(urlconf, "urlpatterns"):
                 return
 
-            # Avoid duplicate registration
+            # Better duplicate check: look for the actual URL pattern
+            from django.urls import include
             for p in urlconf.urlpatterns:
-                if getattr(p, "pattern", None) and "zdlab/api" in str(p.pattern):
-                    return
+                # Check if this pattern already includes our URLs
+                if hasattr(p, 'url_patterns'):
+                    for sub_p in p.url_patterns:
+                        if hasattr(sub_p, 'urlconf_module') and 'zdlab.api' in str(sub_p.urlconf_module):
+                            return
 
             urlconf.urlpatterns.append(
                 re_path(r'^zdlab/api/', include('tutormyplugin.zdlab.api.urls'))
             )
+            print(f"[ZDLAB] Successfully registered URLs at /zdlab/api/")  # Debug
 
-        except Exception:
+        except Exception as e:
+            print(f"[ZDLAB] Failed to register URLs: {e}")
             # Never crash LMS because of a plugin
             pass
