@@ -18,7 +18,7 @@ hooks.Filters.ENV_PATCHES.add_item(
         "openedx-lms-common-settings",
         """
 INSTALLED_APPS.append("tutormyplugin.my_api")
-INSTALLED_APPS.append("tutormyplugin.zdlab.api")
+INSTALLED_APPS.append("tutormyplugin.zdlab")
 """
     )
 )

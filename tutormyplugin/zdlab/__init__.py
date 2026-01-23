@@ -1,1 +1,1 @@
-﻿# Empty file - app config is in api/apps.py
+default_app_config = 'tutormyplugin.zdlab.apps.ZdlabAPIConfig'
