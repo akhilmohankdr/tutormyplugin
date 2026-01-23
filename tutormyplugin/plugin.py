@@ -22,3 +22,17 @@ INSTALLED_APPS.append("tutormyplugin.zdlab.api")
 """
     )
 )
+
+# Register zdlab URLs via Tutor hook
+hooks.Filters.ENV_PATCHES.add_item(
+    (
+        "openedx-lms-urls",
+        """
+# Add zdlab API URLs
+from django.urls import include, re_path
+urlpatterns += [
+    re_path(r'^zdlab/api/v1/', include('tutormyplugin.zdlab.api.v1.urls')),
+]
+"""
+    )
+)
