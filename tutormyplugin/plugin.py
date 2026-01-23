@@ -4,7 +4,7 @@ import os
 __version__ = "20.0.0"
 HERE = os.path.abspath(os.path.dirname(__file__))
 
-# Install plugin
+# Install plugin from GitHub
 hooks.Filters.ENV_PATCHES.add_item(
     (
         "openedx-dockerfile-post-python-requirements",
@@ -12,12 +12,13 @@ hooks.Filters.ENV_PATCHES.add_item(
     )
 )
 
-# Add to INSTALLED_APPS
+# Add BOTH APIs to INSTALLED_APPS
 hooks.Filters.ENV_PATCHES.add_item(
     (
         "openedx-lms-common-settings",
         """
 INSTALLED_APPS.append("tutormyplugin.my_api")
+INSTALLED_APPS.append("tutormyplugin.zdlab.api")
 """
     )
 )
