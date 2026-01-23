@@ -1,8 +1,8 @@
 """Zdlab API main URL patterns
 """
 
-from django.conf.urls import include, url
+from django.urls import include, re_path
 
 urlpatterns = [
-    url(r'^v1/', include('tutormyplugin.zdlab.api.v1.urls', namespace='v1')),
+    re_path(r'^v1/', include('tutormyplugin.zdlab.api.v1.urls', namespace='v1')),
 ]
