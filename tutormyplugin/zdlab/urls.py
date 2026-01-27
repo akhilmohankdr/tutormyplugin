@@ -1,9 +1,6 @@
-from django.urls import path
-from . import views
-
-app_name = 'zdlab'  # Change this
+"""Main URL router for the Zdlab API."""
+from django.urls import include, path
 
 urlpatterns = [
-    # We'll update this in Phase 2
-    path('v1/hello/', views.hello_world, name='hello-world'),
+    path('v1/', include('tutormyplugin.zdlab.api.v1.urls')),
 ]
